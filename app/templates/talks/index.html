@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block page_content %}
+    {% if current_user.is_authenticated %}
+        <h1>Hello {{ current_user.username }}!</h1>
+    {% endif %}
+    {% if not current_user.is_authenticated %}
+        <h1>Hello World!</h1>
+    {% endif %}
+    {% include "talks/_talks.html" %}
+{% endblock %}
+
+
