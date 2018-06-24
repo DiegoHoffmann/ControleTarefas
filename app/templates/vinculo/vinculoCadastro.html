@@ -2,6 +2,12 @@
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% block page_content %}
-
-{{ wtf.quick_form(form) }}
+<h1>Funcionario X Projetos</h1>
+    <div>
+        <input type="image" src="{{ url_for('static', filename='imagens/search.png') }}" width="48" height="48"
+               onclick="redirecionar('lista') ">
+    </div>
+    <div>
+        {{ wtf.quick_form(form) }}
+    </div>
 {% endblock %}

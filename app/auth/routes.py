@@ -1,4 +1,4 @@
-from flask import render_template, redirect, request, url_for, flash
+from flask import render_template, redirect, request, url_for, flash,session
 from flask_login import login_user, login_required, logout_user
 from .forms import LoginForm
 from . import auth
@@ -13,6 +13,7 @@ def login():
             flash('Invalid email or password')
             return redirect(url_for('.login'))
         login_user(user, form.remember_me.data)
+        session["session_name"] = user.email
         return redirect(request.args.get('next') or url_for('talks.index'))
     return render_template('auth/login.html', form=form)
 
@@ -21,6 +22,7 @@ def login():
 def logout():
     logout_user()
     flash('You have been logged out.')
+    session.pop("session_name", None)
     return redirect(url_for('talks.index'))
 
 

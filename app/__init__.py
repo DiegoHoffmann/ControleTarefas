@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, session
 from config import config
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
@@ -24,32 +24,32 @@ def create_app(config_name):
 
     # Inicializando Autenticacao
     from .auth import auth as auth_blueprint
-    app.register_blueprint(auth_blueprint, url_prefix='/auth')
+    app.register_blueprint(auth_blueprint, url_prefix='/auth/')
     login_manager.init_app(app)
 
     from .cliente import cliente as cliente_blueprint
-    app.register_blueprint(cliente_blueprint, url_prefix='/admin')
+    app.register_blueprint(cliente_blueprint, url_prefix='/admin/cliente')
 
     from .funcionario import funcionario as funcionario_blueprint
-    app.register_blueprint(funcionario_blueprint, url_prefix='/admin')
+    app.register_blueprint(funcionario_blueprint, url_prefix='/admin/funcionario')
 
     from .projetos import projetos as projetos_blueprint
-    app.register_blueprint(projetos_blueprint, url_prefix='/admin')
+    app.register_blueprint(projetos_blueprint, url_prefix='/admin/projetos')
 
     from .vinculo import vinculo as vinculo_blueprint
-    app.register_blueprint(vinculo_blueprint, url_prefix='/admin')
+    app.register_blueprint(vinculo_blueprint, url_prefix='/admin/vinculo')
 
     from .atividade import atividade as atividade_blueprint
-    app.register_blueprint(atividade_blueprint, url_prefix='/admin')
+    app.register_blueprint(atividade_blueprint, url_prefix='/admin/atividade/')
 
     from .lancamentos import lancamentos as lancamentos_blueprint
-    app.register_blueprint(lancamentos_blueprint, url_prefix='/lancamentos')
+    app.register_blueprint(lancamentos_blueprint, url_prefix='/lancamentos/')
 
     from .relatorio import relatorio as relatorio_blueprint
-    app.register_blueprint(relatorio_blueprint, url_prefix='/relatorio')
+    app.register_blueprint(relatorio_blueprint, url_prefix='/relatorio/')
 
     from .perfil import perfil as perfil_blueprint
-    app.register_blueprint(perfil_blueprint, url_prefix='/perfil')
+    app.register_blueprint(perfil_blueprint, url_prefix='/perfil/')
     return app
 
 

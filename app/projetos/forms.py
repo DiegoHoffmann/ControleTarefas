@@ -4,11 +4,7 @@ from wtforms.validators import DataRequired
 
 
 class ProjetosForm(FlaskForm):
-    codigo = StringField('Cod Projeto')
     nomeProjeto = StringField('Nome Projeto')
-    cliente = SelectField(
-        'Cliente',
-        choices=[('Cliente1', 'Cliente1'), ('Cliente2', 'Cliente2'), ('Cliente3', 'Cliente3')])
+    cliente = SelectField('Cliente', coerce=int)
     descricaoProjeto = StringField('Descrição Projeto')
-    submit = SubmitField('Salvar')
-
+    submit = SubmitField('Cadastrar')

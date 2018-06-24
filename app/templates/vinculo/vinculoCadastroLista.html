@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+<div class="page-header" style="">
+    <div class="container">
+        <div class="row">
+            <h1>Funcionario X Projetos</h1>
+            <div class="col-sm-12">
+                <form method="post" action="/admin/vinculo/lista">
+                    <div class="col-sm-4" style="padding-top:10px">
+                        <input name="txtFiltro" class="form-control" type="text" title="filtro">
+                        <div>
+                            <div style="float:left; width:30%" >
+                                <input name="chkCordenador" type="checkbox">
+                                <label>Cordenador</label>
+                            </div>
+                            <div>
+                                <input name="chkFuncionario" type="checkbox">
+                                <label>Funcionario</label>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <input type="image" src="{{ url_for('static', filename='imagens/search.png') }}" width="48"
+                           height="48" value="submitFiltro" name="submitFiltro">
+
+                </form>
+            </div>
+        </div>
+        <br/>
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered table-hover table-condensed" style="width:90%">
+                <thead class="thead-dark">
+                <tr>
+                    <th>id</th>
+                    <th>Funcionario</th>
+                    <th>Perfil</th>
+                    <th>Projeto</th>
+                </tr>
+                </thead>
+                {% for vinculo in vinculoLista %}
+                <tbody>
+                <tr>
+                    <td>{{vinculo.funcionarios.matricula}}</td>
+                    <td>{{vinculo.funcionarios.nome}}</td>
+                    {% if vinculo.cordenador %}
+                    <td>Cordenador</td>
+                    {% else %}
+                    <td>Funcionario</td>
+                    {% endif %}
+                    <td>{{vinculo.projetos.nome}}</td>
+                </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

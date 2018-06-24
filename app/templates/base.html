@@ -1,40 +1,51 @@
 {% extends "bootstrap/base.html" %}
 
 {% block title %}Talks{% endblock %}
-
 {% block head %}
 {{ super() }}
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <script rel="stylesheet" type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}"></script>
+
 {% endblock %}
 
+{% block styles %}
+{{ super() }}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/estilo.css') }}">
+{% endblock %}
 {% block navbar %}
 <div class="navbar navbar-default" role="navigation">
     <div class="container">
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li><a href="{{ url_for('talks.index') }}">Home</a></li>
-                {% if current_user.is_authenticated %}
-                <li><a href="{{ url_for('talks.user', username=current_user.username) }}">Profile</a></li>                
-                {% endif %}
-            </ul>
-			<ul class="nav navbar-nav">
-				<li class="dropdown">
-					<a class="dropdown-toggle" data-toggle="dropdown" href="#">Cadastro
-						<span class="caret"></span></a>
-					<ul class="dropdown-menu">
-						<li><a href="{{ url_for('projetos.projetos') }}">Projetos</a></li>
-						<li><a href="{{ url_for('cliente.cliente') }}">Clientes</a></li>
-						<li><a href="{{ url_for('funcionario.funcionario') }}">Funcionarios</a></li>
-						<li><a href="{{ url_for('vinculo.vinculo') }}">Funcionarios X Projetos</a></li>
-						<li><a href="{{ url_for('atividade.atividade') }}">Atividades</a></li>
-					</ul>
-				</li>
-				<li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Lançamentos
+        <div class="nav navbar-nav navbar-left">
+           <img src="{{ url_for('static', filename='imagens/time.png') }}" width="48" height="48">
+            <label>Controle Horas</label>
+        </div>
+        <ul class="nav navbar-nav">
+            {% if current_user.is_authenticated %}
+            <li><a href="{{ url_for('talks.user', username=current_user.username) }}">Profile</a></li>
+            {% endif %}
+        </ul>
+        <ul class="nav navbar-nav">
+            {% if ((current_user.is_authenticated) and (current_user.is_admin)) %}
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Cadastro
                     <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li><a href="{{ url_for('lancamentos.lancamentos') }}">Horas Trabalhadas</a></li>
+                    {% if current_user.is_admin%}
+                        <li><a href="{{ url_for('projetos.criarProjetos') }}">Projetos</a></li>
+                        <li><a href="{{ url_for('cliente.criarCliente') }}">Clientes</a></li>
+                        <li><a href="{{ url_for('funcionario.criarFuncionario') }}">Funcionarios</a></li>
+                        <li><a href="{{ url_for('vinculo.criarVinculo') }}">Funcionarios X Projetos</a></li>
+                        <li><a href="{{ url_for('atividade.criarAtividade') }}">Atividades</a></li>
+                    {% endif %}
                 </ul>
+            </li>
+            {% endif %}
+            {% if (current_user.is_authenticated)%}
+            <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Lançamentos
+                <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a href="{{ url_for('lancamentos.lancamentos') }}">Horas Trabalhadas</a></li>
+            </ul>
             </li>
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Relatórios
@@ -53,37 +64,43 @@
                     <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
                 </ul>
             </li>
-			</ul>
-            <ul class="nav navbar-nav navbar-right">
-                {% if not current_user.is_authenticated %}
-                <li><a href="{{ url_for('auth.login') }}">Presenter Login</a></li>
-                {% else %}
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="{{ current_user.gravatar(size=18) }}"> {{ current_user.username }} <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
-                    </ul>
-                </li>
-                {% endif %}
-            </ul>
-        </div>
+            {% endif %}
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            {% if not current_user.is_authenticated %}
+            <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+            {% else %}
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <img src="{{ current_user.gravatar(size=18) }}">
+                    {{ current_user.username }}
+                    <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+                </ul>
+            </li>
+            {% endif %}
+        </ul>
     </div>
 </div>
 {% endblock %}
 
 {% block content %}
 <div class="container">
-    {% for message in get_flashed_messages() %}
-    <div class="alert alert-warning">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        {{ message }}
+    <div class="demo">
+        {% for message in get_flashed_messages() %}
+        <div class="alert alert-warning">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% block page_content %}{% endblock %}
     </div>
-    {% endfor %}
-
-    {% block page_content %}{% endblock %}
 </div>
 {% endblock %}
-
 {% block scripts %}
+
 {{ super() }}
+
 {% endblock %}

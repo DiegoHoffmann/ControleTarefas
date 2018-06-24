@@ -57,6 +57,70 @@ class Talk(db.Model):
     venue_url = db.Column(db.String(128))
     date = db.Column(db.DateTime())
 
+
+class Cliente(db.Model):
+    __tablename__ = 'clientes'
+    id = db.Column(db.Integer, primary_key=True)
+    cpf_cnpj = db.Column(db.Integer, nullable=False, unique=True, index=True)
+    nome = db.Column(db.String(40))
+
+
+class Funcionario(db.Model):
+    __tablename__ = 'funcionario'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    matricula = db.Column(db.String(7), unique=True)
+    nome = db.Column(db.Text())
+    senha = db.Column(db.String(256))
+
+    @property
+    def password(self):
+        raise AttributeError('password is not a readable attribute')
+
+    def password(self, password):
+        self.senha = generate_password_hash(password)
+
+    def verify_password(self, password):
+        return check_password_hash(self.senha, password)
+
+class Projeto(db.Model):
+    __tablename__= 'projeto'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    nome = db.Column(db.Text())
+    cliente_id = db.Column(db.Integer, db.ForeignKey('clientes.id'))
+    descricao = db.Column(db.Text())
+    #situacao = db.Column(db.Boolean())
+    clientes = db.relationship('Cliente', backref="clientes", lazy=True)
+
+class Atividade(db.Model):
+    __tablename__= 'atividade'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    descricao = db.Column(db.Text())
+
+
+class FuncionarioProjeto(db.Model):
+    __tablename__= 'funcionario_projeto'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    funcionario_id = db.Column(db.Integer, db.ForeignKey('funcionario.id'))
+    projeto_id = db.Column(db.Integer, db.ForeignKey('projeto.id'))
+    cordenador = db.Column(db.Boolean())
+    funcionarios = db.relationship('Funcionario', backref="funcionarios", lazy=True)
+    projetos = db.relationship('Projeto', backref="projetos", lazy=True)
+
+class LancamentoHoras(db.Model):
+    __tablename__ = 'lancamento_horas'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    data_hora_inicio: db.Column(db.DateTime)
+    data_hora_fim: db.Column(db.DateTime)
+    hora_inicio = db.Column(db.DateTime)
+    atividade_id = db.Column(db.Integer, db.ForeignKey('atividade.id'))
+    projeto_id = db.Column(db.Integer, db.ForeignKey('projeto.id'))
+    funcionario_id = db.Column(db.Integer, db.ForeignKey('funcionario.id'))
+    descricao = db.Column(db.Text())
+    funcionarios = db.relationship('Funcionario', backref="funcionariosHoras", lazy=True)
+    projetos = db.relationship('Projeto', backref="projetosHoras", lazy=True)
+    atividades = db.relationship('Atividade', backref="atividadesHoras", lazy=True)
+
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
