@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block page_content %}
+<div class="page-header" style="">
+    <div class="container">
+        <div class="row">
+            <h1>Lancamento de Horas</h1>
+            <div class="col-sm-12">
+                <div class="col-sm-10" style="padding-left:40px;">
+                    <form method="post" action="/lancamentos/salvarAlteracaoAtividade">
+                        <h3>Correcao Atividade</h3>
+                        <div class="col-sm-5">
+                            <div class="row">
+                                <div style="padding-right:20px">
+                                    <label>Atividade Codigo</label>
+                                </div>
+                                <div>
+                                    <input name="idAtividade" type="text" readonly value="{{atividadeLancList.id}}" style="width:90%" class="form-control">
+                                </div>
+                                <div style="padding-right:20px">
+                                    <label>Projeto</label>
+                                </div>
+                                <div>
+                                    <select name="selectProjeto" class="form-control" style="width:90%">
+                                        <option selected value="{{atividadeLancList.projeto_id}}">{{atividadeLancList.projetos.nome}}</option>
+                                        {% for projeto in projetoList %}
+                                        <option value="{{projeto.projetos.id}}" >{{projeto.projetos.nome}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div>
+                                    <label>Data/Hora Inicio</label>
+                                </div>
+                                <div style="float:left; padding-right:20px">
+                                    <input name="txtDtInicio" value="{{atividadeLancList.data_hora_inicio.strftime('%Y-%m-%d')}}" class="form-control" type="date">
+                                </div>
+                                <div>
+                                    <input name="txtHoraInicio" value="{{atividadeLancList.data_hora_inicio.strftime('%H:%M')}}" style="width:35%" class="form-control" type="time">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div>
+                                    <label>Data/Hora Fim</label>
+                                </div>
+                                <div style="float:left; padding-right:20px">
+                                    <input name="txtDtFim" value="{{atividadeLancList.data_hora_fim.strftime('%Y-%m-%d')}}" class="form-control" type="date">
+                                </div>
+                                <div>
+                                    <input name="txtHoraFim" value="{{atividadeLancList.data_hora_fim.strftime('%H:%M')}}" style="width:35%" class="form-control" type="time">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="row">
+                                <div style="padding-right:20px">
+                                    <label>Atividade</label>
+                                </div>
+                                <div>
+                                    <select name="selectAtividade" class="form-control" style="width:90%">
+                                        <option value="{{atividadeLancList.atividade_id}}">{{atividadeLancList.atividades.descricao}}</option>
+                                        {% for atividade in atividadeList %}
+                                        <option value="{{atividade.id}}">{{atividade.descricao}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div style="padding-right:20px">
+                                    <label>Descricao</label>
+                                </div>
+                                <div>
+                                    <textarea name="txtDescricao" style="width:90%" class="form-control">{{atividadeLancList.descricao}}</textarea>
+                                </div>
+                                <div style="padding-top:10px">
+                                    <input type="submit" class="buttonSalvar" value="Salvar">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

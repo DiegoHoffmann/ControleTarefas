@@ -1,9 +1,9 @@
 from operator import or_
 
-from flask import render_template, flash, redirect, url_for, request
+from flask import render_template, flash, redirect, url_for, request, session
 from .forms import FuncionarioForm
 from . import funcionario
-from app.models import Funcionario, db
+from app.models import Funcionario, db, User
 
 
 @funcionario.route('/funcionario', methods=['GET', 'POST'])
@@ -11,9 +11,20 @@ def criarFuncionario():
     form = FuncionarioForm()
 
     if form.validate_on_submit():
+        user = User.query.filter_by(email=session["session_name"]).first_or_404()
+        if user is None:
+            usuario = User(email=form.email.data, username=form.nome.data.upper(), password=form.senha.data,
+                           is_admin=form.admin.data)
+
+            db.session.add(usuario)
+            db.session.commit()
+            usuarioCriado = User.query.filter(User.email == form.email.data).first()
+        else:
+            usuarioCriado = user
+
         funcionario = Funcionario()
         funcionario.nome = form.nome.data.upper()
-        funcionario.matricula = form.matricula.data
+        funcionario.matricula = usuarioCriado.id
         funcionario.password(form.senha.data)
 
         db.session.add(funcionario)

@@ -5,7 +5,7 @@ from wtforms.validators import DataRequired
 
 class VinculoForm(FlaskForm):
     codigoFuncionario = SelectField('Funcionario', coerce=int)
-    codigoProjeto = SelectField('Cliente', coerce=int)
+    codigoProjeto = SelectField('Projeto', coerce=int)
     cordenador = BooleanField('Cordenador')
 
     submit = SubmitField('Cadastrar')

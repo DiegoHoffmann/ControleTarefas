@@ -16,6 +16,46 @@ p {
     font-size: 20px;
 }
 
-.salvar{
+.button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 2px 2px;
+    cursor: pointer;
+    border-radius: 8px;
+    border: 2px solid #4CAF50;
+}
 
+.button:hover {
+    background-color: white; /* Green */
+    color: #4CAF50;
+    border-color: #4CAF50;
+    border: 2px solid #4CAF50;
+}
+
+
+.buttonSalvar {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 2px 2px;
+    cursor: pointer;
+    border-radius: 8px;
+    border: 2px solid #4CAF50;
+}
+
+.buttonSalvar:hover {
+    background-color: white; /* Green */
+    color: #4CAF50;
+    border-color: #4CAF50;
+    border: 2px solid #4CAF50;
 }

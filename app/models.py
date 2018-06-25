@@ -9,7 +9,7 @@ from flask_login import UserMixin
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     email = db.Column(db.String(64), nullable=False, unique=True, index=True)
     username = db.Column(db.String(64), nullable=False, unique=True, index=True)
     is_admin = db.Column(db.Boolean)
@@ -70,6 +70,7 @@ class Funcionario(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     matricula = db.Column(db.String(7), unique=True)
     nome = db.Column(db.Text())
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     senha = db.Column(db.String(256))
 
     @property
@@ -109,9 +110,8 @@ class FuncionarioProjeto(db.Model):
 class LancamentoHoras(db.Model):
     __tablename__ = 'lancamento_horas'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    data_hora_inicio: db.Column(db.DateTime)
-    data_hora_fim: db.Column(db.DateTime)
-    hora_inicio = db.Column(db.DateTime)
+    data_hora_inicio = db.Column(db.DateTime)
+    data_hora_fim = db.Column(db.DateTime)
     atividade_id = db.Column(db.Integer, db.ForeignKey('atividade.id'))
     projeto_id = db.Column(db.Integer, db.ForeignKey('projeto.id'))
     funcionario_id = db.Column(db.Integer, db.ForeignKey('funcionario.id'))
@@ -120,6 +120,18 @@ class LancamentoHoras(db.Model):
     projetos = db.relationship('Projeto', backref="projetosHoras", lazy=True)
     atividades = db.relationship('Atividade', backref="atividadesHoras", lazy=True)
 
+class Ponto(db.Model):
+    __tablename__ = 'ponto'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    data_lancamento = db.Column(db.Date)
+    hora_inicio_1 = db.Column(db.DateTime)
+    hora_fim_1 = db.Column(db.DateTime)
+    hora_inicio_2 = db.Column(db.DateTime)
+    hora_fim_2 = db.Column(db.DateTime)
+    hora_inicio_3 = db.Column(db.DateTime)
+    hora_fim_3 = db.Column(db.DateTime)
+    funcionario_id = db.Column(db.Integer, db.ForeignKey('funcionario.id'))
+    funcionarios = db.relationship('Funcionario', backref="funcionariosPonto", lazy=True)
 
 @login_manager.user_loader
 def load_user(user_id):

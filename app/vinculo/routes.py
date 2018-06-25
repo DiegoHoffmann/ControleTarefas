@@ -42,14 +42,15 @@ def vinculoLista():
             buscaFuncionario = True
 
         if filtro is None or filtro == "":
-            if buscaCordenador or buscaFuncionario :
+            if buscaCordenador or not buscaFuncionario :
                 vinculoLista = FuncionarioProjeto.query.filter(or_(FuncionarioProjeto.cordenador == buscaCordenador, FuncionarioProjeto.cordenador == buscaFuncionario))
             else:
                 vinculoLista = FuncionarioProjeto.query.all()
         else:
-            vinculoLista = FuncionarioProjeto.query.filter(or_(Projeto.nome.like('%' + filtro + '%'),
-                                                            Funcionario.nome.like('%' + filtro + '%')),
-                                                           (FuncionarioProjeto.cordenador == buscaCordenador | FuncionarioProjeto.cordenador == buscaFuncionario))
+            vinculoLista = FuncionarioProjeto.query.join(FuncionarioProjeto.funcionarios)\
+                .join(FuncionarioProjeto.projetos)\
+                .filter(or_(Funcionario.nome.like('%' + filtro +'%'),Funcionario.matricula.like('%' + filtro +'%')) | \
+                           (Projeto.nome.like('%' + filtro +'%')), ((FuncionarioProjeto.cordenador == buscaCordenador) | (FuncionarioProjeto.cordenador == buscaFuncionario)))
 
 
     else:
@@ -57,3 +58,15 @@ def vinculoLista():
 
 
     return render_template('vinculo/vinculoCadastroLista.html', vinculoLista=vinculoLista)
+
+
+@vinculo.route('/lista/remover',methods=['GET', 'POST'])
+def vinculoListaRemover():
+    idRegistro =request.form.get('remover')
+    if request.form.get('remover') is not None:
+        vinculo = FuncionarioProjeto.query.filter(FuncionarioProjeto.id == idRegistro).first()
+        db.session.delete(vinculo)
+        db.session.commit()
+        flash("Viculo removido com sucesso")
+
+    return redirect(url_for('.vinculoLista'))

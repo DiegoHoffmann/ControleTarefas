@@ -27,7 +27,7 @@ def criarProjetos():
 
 @projetos.route('/lista', methods=['GET', 'POST'])
 def projetoLista():
-    if request.form.get('submitFiltro') == 'submitFiltro':
+    if request.form.get('remover') == 'submitFiltro':
         filtro = request.form.get('txtFiltro')
         if filtro is None or filtro == "":
             projetoLista = Projeto.query.all()
