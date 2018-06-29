@@ -71,7 +71,7 @@ class Cliente(db.Model):
 class Funcionario(db.Model):
     __tablename__ = 'funcionario'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    matricula = db.Column(db.String(7), unique=True)
+    matricula = db.Column(db.String(7), unique=True, autoincrement=True)
     nome = db.Column(db.Text())
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     senha = db.Column(db.String(256))

@@ -24,7 +24,7 @@ def criarFuncionario():
 
         funcionario = Funcionario()
         funcionario.nome = form.nome.data.upper()
-        funcionario.matricula = usuarioCriado.id
+        funcionario.user_id = usuarioCriado.id
         funcionario.password(form.senha.data)
 
         db.session.add(funcionario)

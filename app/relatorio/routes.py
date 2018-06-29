@@ -1,14 +1,11 @@
-import datetime
-from operator import or_
-from time import strptime
 
-from IPython.utils.tokenize2 import t
+from operator import or_
+
 from flask import render_template, session
-from timestring import Date
 
 from app import db
+from app.models import FuncionarioProjeto, LancamentoHoras, Funcionario, User, Ponto
 from . import relatorio
-from app.models import FuncionarioProjeto, LancamentoHoras, Projeto, Atividade, Funcionario, User, Ponto
 
 
 @relatorio.route('/minhasHoras')

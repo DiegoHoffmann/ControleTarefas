@@ -34,8 +34,9 @@ def alterarSenhaSalvar():
                     db.session.query(User).filter(User.id == user.id).update({User.password_hash: User.passwordAtualizar(novaSenha)})
                     db.session.commit()
                     flash("Senha alterada com sucesso")
-
             else:
                 flash("Confirmação de senha invalida")
+        else:
+            flash("Senha invalida")
 
     return redirect(url_for('.alterarSenha'))
