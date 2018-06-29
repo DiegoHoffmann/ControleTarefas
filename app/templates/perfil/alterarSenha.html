@@ -7,9 +7,23 @@
         <div class="row">
             <h1>Alterar Senha</h1>
             <div class="col-sm-12">
-                <div class="row" style="padding-top:50px;">
-                    <form method="post" action="/perfil/alterarSenha">
-
+                <div class="row" style="padding-top:50px; padding-left:37%;" >
+                    <form method="post" action="/perfil/alterarSenha/salvar">
+                        <div class="row">
+                        <label>Senha Anterior</label>
+                        <input type="password" name="txtSenhaAnterior" class="form-control" style="width:30%">
+                        </div>
+                        <div class="row">
+                        <label>Nova Senha</label>
+                        <input type="password" name="txtNovaSenha" class="form-control" style="width:30%">
+                        </div>
+                        <div class="row">
+                        <label>Confirmar Senha</label>
+                        <input type="password" name="txtConfirmaSenha" class="form-control" style="width:30%">
+                        </div>
+                         <div class="row" style="padding-top:20px;">
+                        <input type="submit" class="buttonSalvar" value="Salvar" name="salvar">
+                         </div>
                     </form>
                 </div>
             </div>
