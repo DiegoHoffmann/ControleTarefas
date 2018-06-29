@@ -38,7 +38,7 @@
                                         {% endif %}
                                     </td>
                                     <td>
-                                        {% if hora_inicio_2 != None %}
+                                        {% if horas.hora_inicio_2 != None %}
                                         {{horas.hora_inicio_2.strftime("%H:%M")}}
                                         {% endif %}
                                     </td>
@@ -56,11 +56,11 @@
                                         {% endif %}
                                     </td>
                                     <td datatype="date">
-                                        {% if horas.hora_fim_3 != None or horas.hora_inicio_3 != None %}
+                                        {% if horas.hora_fim_3 != None and horas.hora_inicio_3 != None %}
                                         {{(((horas.hora_fim_3-horas.hora_inicio_3)) + ((horas.hora_fim_2-horas.hora_inicio_2)) +  ((horas.hora_fim_1-horas.hora_inicio_1))/60)}}
-                                        {% elif horas.hora_fim_2 != None or horas.hora_inicio_2 != None %}
+                                        {% elif horas.hora_fim_2 != None and horas.hora_inicio_2 != None %}
                                         {{(((horas.hora_fim_2-horas.hora_inicio_2)/60) +  ((horas.hora_fim_1-horas.hora_inicio_1)/60)*60)}}
-                                        {% else %}
+                                        {% elif horas.hora_fim_1 != None and horas.hora_inicio_1 != None %}
                                         {{((horas.hora_fim_1-horas.hora_inicio_1)/60)}}
                                         {% endif %}
                                     </td>

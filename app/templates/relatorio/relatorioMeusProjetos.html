@@ -15,6 +15,7 @@
                                 <thead class="thead-dark">
                                 <tr>
                                     <th>Projeto</th>
+                                    <th>Funcionario</th>
                                     <th>Inicio</th>
                                     <th>Fim</th>
                                     <th>Horas</th>
@@ -25,9 +26,13 @@
                                 {% for i in meusProjetos %}
                                 <tbody>
                                 <tr>
-                                    <td>{{i.projeto_id}}</td>
                                     <td>{{i.projetos.nome}}</td>
-                                    <td>{{i.projetos.nome}}</td>
+                                    <td>{{i.funcionarios.nome}}</td>
+                                    <td>{{i.data_hora_inicio}}</td>
+                                    <td>{{i.data_hora_fim}}</td>
+                                    <td>{{((i.data_hora_fim-i.data_hora_inicio)/60)}}</td>
+                                    <td>{{i.atividades.descricao}}</td>
+                                    <td>{{i.descricao}}</td>
                                 </tr>
                                 </tbody>
                                 {% endfor %}

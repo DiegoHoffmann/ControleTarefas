@@ -2,6 +2,44 @@
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% block page_content %}
+<div class="page-header" style="">
+    <div class="container">
+        <div class="row">
+            <h1>Perfil</h1>
+            <div class="col-sm-12">
+                <div class="row" style="padding-top:50px;">
+                    <form method="post" action="/perfil/alterarSenha">
+                        <div class="col-sm-2">
+                            <a href="#" class="borderImg" data-toggle="dropdown">
+                                <img src="{{ current_user.gravatar(size=90) }}">
+                            </a>
+                        </div>
+                        <div class="row">
+                            <div>
+                                <label>Nome:</label>
+                                <label>{{ current_user.username }}</label>
+                            </div>
+                            <div>
+                                <div>
+                                    <label>Administrador:</label>
+                                    {% if current_user.is_admin %}
+                                    <label>Sim</label>
+                                    {% else %}
+                                    <label>Não</label>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div>
+                                <input type="submit" class="buttonSalvar" value="Alterar Senha">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="row">
 
-{{ wtf.quick_form(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
