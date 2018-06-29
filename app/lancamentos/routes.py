@@ -88,6 +88,10 @@ def salvarAtividade():
             dataHora = request.form.get('txtDtFim') + ' ' + request.form.get('txtHoraFim') + ":00.000000"
             dataFim = datetime.strptime(dataHora, "%Y-%m-%d %H:%M:%S.%f")
 
+            if dataInicio > dataFim:
+                flash("Informe os campo corretamente")
+                return redirect(url_for('.carregarLancamentos'), 100, None)
+
             lancamento.data_hora_inicio = dataInicio
             lancamento.data_hora_fim = dataFim
             lancamento.descricao = request.form.get('txtDescricao')
@@ -149,6 +153,10 @@ def salvarAlteracaoAtividade():
             dataInicio = datetime.strptime(dataHora, "%Y-%m-%d %H:%M:%S.%f")
             dataHora = request.form.get('txtDtFim') + ' ' + request.form.get('txtHoraFim') + ":00.000000"
             dataFim = datetime.strptime(dataHora, "%Y-%m-%d %H:%M:%S.%f")
+
+            if dataInicio > dataFim:
+                flash("Informe os campo corretamente")
+                return redirect(url_for('.carregarLancamentos') )
 
             lancamento.data_hora_inicio = dataInicio
             lancamento.data_hora_fim = dataFim
