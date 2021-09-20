@@ -15,10 +15,14 @@ pip install -r requirements.txt
 ````
 Ao finalizar a instalação das dependências, executar. 
 
-_obs: o valor true é para add usuário admin_
+````
+python manage.py db migrate
+````
+
 ````
 python manage.py adduser diego@email.com diego True
 ````
+_obs: o valor true é para add usuário admin_
 
 Para subir criar um server local para a aplicação basta executar o comando
 ````

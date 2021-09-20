@@ -9,21 +9,24 @@ from app.models import Funcionario, db, User
 @funcionario.route('/funcionario', methods=['GET', 'POST'])
 def criarFuncionario():
     form = FuncionarioForm()
-
     if form.validate_on_submit():
-        user = User.query.filter_by(email=session["session_name"]).first_or_404()
+        user = User.query.filter_by(email = form.email.data).first()
         if user is None:
             usuario = User(email=form.email.data, username=form.nome.data.upper(), password=form.senha.data,
                            is_admin=form.admin.data)
 
             db.session.add(usuario)
             db.session.commit()
-            usuarioCriado = User.query.filter(User.email == form.email.data).first()
+        
+            usuarioCriado = User.query.filter_by(email = form.email.data).first()
+
+            flash("Usuario inserido com sucesso!")
         else:
             usuarioCriado = user
 
         funcionario = Funcionario()
         funcionario.nome = form.nome.data.upper()
+        funcionario.matricula = usuarioCriado.id
         funcionario.user_id = usuarioCriado.id
         funcionario.password(form.senha.data)
 

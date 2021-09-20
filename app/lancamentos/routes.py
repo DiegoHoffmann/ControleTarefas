@@ -11,11 +11,11 @@ def carregarLancamentos():
     user = User.query.filter_by(email=session["session_name"]).first_or_404()
     funcionario = Funcionario.query.filter(Funcionario.matricula == user.id).first()
     atividade = Atividade.query.all()
-    projeto = FuncionarioProjeto.query.join(FuncionarioProjeto.projetos).filter(FuncionarioProjeto.funcionario_id == funcionario.id).all()
+    projeto = FuncionarioProjeto.query.join(FuncionarioProjeto.projetos).filter(FuncionarioProjeto.funcionario_id == Funcionario.id).all()
     dataHoje = datetime.now().date()
-    temPonto = Ponto.query.filter(Ponto.funcionario_id == funcionario.id, Ponto.data_lancamento == dataHoje).first()
+    temPonto = Ponto.query.filter(Ponto.funcionario_id == Funcionario.id, Ponto.data_lancamento == dataHoje).first()
     atividadeLancList = LancamentoHoras.query.join(LancamentoHoras.projetos).join(LancamentoHoras.atividades).filter(\
-        LancamentoHoras.funcionario_id == funcionario.id).order_by(LancamentoHoras.data_hora_inicio)
+        LancamentoHoras.funcionario_id == Funcionario.id).order_by(LancamentoHoras.data_hora_inicio)
 
     return render_template('lancamentos/lancamentosCadastro.html', projetoList=projeto, atividadeList=atividade, temPonto=temPonto, dataHoje=dataHoje, atividadeLancList=atividadeLancList)
 
@@ -25,7 +25,7 @@ def salvarPonto():
     funcionario = Funcionario.query.filter(Funcionario.matricula == user.id).first()
     if request.form.get('btnInicio') == 'Registrar Ponto':
         dataHoje = datetime.now().date()
-        temPonto = Ponto.query.filter(Ponto.funcionario_id == funcionario.id, Ponto.data_lancamento == dataHoje).first()
+        temPonto = Ponto.query.filter(Ponto.funcionario_id == Funcionario.id, Ponto.data_lancamento == dataHoje).first()
         ponto = Ponto()
         if temPonto is not None:
             ponto = temPonto
@@ -76,8 +76,8 @@ def salvarAtividade():
         return redirect(url_for('.carregarLancamentos'))
     else:
         try:
-            user = User.query.filter_by(email=session["session_name"]).first_or_404()
-            funcionario = Funcionario.query.filter(Funcionario.matricula == user.id).first()
+            user = User.query.filter_by(email=session["session_name"]).first()
+            funcionario = Funcionario.query.filter_by(matricula=user.id).first()
             lancamento = LancamentoHoras()
             lancamento.funcionario_id = funcionario.id
             lancamento.projeto_id = request.form.get('selectProjeto')
@@ -89,7 +89,7 @@ def salvarAtividade():
             dataFim = datetime.strptime(dataHora, "%Y-%m-%d %H:%M:%S.%f")
 
             if dataInicio > dataFim:
-                flash("Informe os campo corretamente")
+                flash("Informe os campo corretamente Data")
                 return redirect(url_for('.carregarLancamentos'), 100, None)
 
             lancamento.data_hora_inicio = dataInicio
@@ -100,15 +100,16 @@ def salvarAtividade():
             db.session.commit()
             flash("Atividade Lancada")
             return redirect(url_for('.carregarLancamentos'))
-        except:
-            flash("Informe os campo corretamente")
+        except Exception as e:
+            flash("Erro ao incluir Atividade")
             return redirect(url_for('.carregarLancamentos'))
 
 @lancamentos.route('/removerAtividade', methods=['GET', 'POST'])
 def removerAtividade():
+    flash(request.form.get('remover'))
     if request.form.get('remover') is not None:
         idRegistro = request.form.get('remover')
-        lancamento = LancamentoHoras.query.filter(LancamentoHoras.id == idRegistro).first()
+        lancamento = LancamentoHoras.query.filter(id=idRegistro).first()
         db.session.delete(lancamento)
         db.session.commit()
         flash("Atividade removida com sucesso")
