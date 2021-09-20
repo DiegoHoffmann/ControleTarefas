@@ -1,7 +1,6 @@
 # Controle Tarefas
 
-Aplicação desenvolvida na matéria de Programação WEB da ULBRA com o Professor Tales Bitelo Viegas. CRUD para controle de projeto, atividades e horas. Desenvolvido em python, sqlite, html e bootstrap.
-
+Aplicação desenvolvida na matéria de Programação WEB da ULBRA Gravataí com o Professor Tales Bitelo Viegas. CRUD para controle de projeto, atividades e horas. Desenvolvido em python, sqlite, html e bootstrap.
 
 
 ## Instalação
@@ -30,3 +29,8 @@ python manage.py runserver
 ````
 
 ## Imagens
+### Login
+![1](https://user-images.githubusercontent.com/39543693/133706991-22886e10-2579-4cd6-ba37-9df0eaa1f1a6.PNG)
+
+### Cadastro Projeto
+![2](https://user-images.githubusercontent.com/39543693/133707010-6e690233-02ea-4c34-9cfd-4f9bf4903fa0.PNG)
