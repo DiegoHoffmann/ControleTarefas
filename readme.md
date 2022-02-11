@@ -23,7 +23,7 @@ python manage.py adduser diego@email.com diego True
 ````
 _obs: o valor true é para add usuário admin_
 
-Para subir criar um server local para a aplicação basta executar o comando
+Para criar um server local para a aplicação basta executar o comando
 ````
 python manage.py runserver
 ````
